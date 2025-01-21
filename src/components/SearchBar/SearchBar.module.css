@@ -1,0 +1,13 @@
+.searchBar{
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+}
+
+.searchBar > input{
+    padding:  10px 20px;
+    width: 50%;
+    border: none;
+    border-radius: 20px;
+    font-size: medium;
+}

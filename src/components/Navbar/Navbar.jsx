@@ -12,7 +12,7 @@ const Navbar = () => {
             <img src={logo} alt="" />
         </div>
         <div className={Style.titleDashboard}>
-            <h1>Dashboard</h1>
+            <h1>DASHBOARD</h1>
         </div>
     </nav>
   )
