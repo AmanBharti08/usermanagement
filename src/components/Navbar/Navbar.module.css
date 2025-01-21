@@ -1,0 +1,24 @@
+.navbar{
+    padding: 40px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo{
+    background-color: #222222;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px; 
+}
+
+.logo > img{
+    width: 150px;
+}
+
+.titleDashboard{
+    font-size: x-large;
+}
