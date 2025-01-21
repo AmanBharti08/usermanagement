@@ -5,15 +5,18 @@ import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { CiLink } from "react-icons/ci";
+import { IoMdAdd } from "react-icons/io";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 //internal imports
 import Style from "./UsersTable.module.css";
 
 const UsersTable = () => {
-  // api call test
   const [users, setUsers] = useState([]);
   const [filteredUser, setFilteredUser] = useState([]);
   const [searched, setSearched] = useState("");
+
+  const [addUserModal, setAddUserModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -38,16 +41,31 @@ const UsersTable = () => {
       setFilteredUser(filtered);
     }
   }, [searched, users]);
+
+  // add user function
+  function addUser() {
+    setAddUserModal(true);
+  }
+  //delete User
+  function deleteUser(id) {
+    const updatedUsers = users.filter((user) => user.id !== id);
+    setUsers(updatedUsers);
+    // Update filteredUser state to ensure consistency
+    setFilteredUser(updatedUsers);
+  }
+
   return (
     <div>
+      {/* Search Bar */}
       <div className={Style.searchBar}>
         <input
           type="text"
-          placeholder="Search candidate by name"
+          placeholder="Search candidate by name or email"
           value={searched}
           onChange={(e) => setSearched(e.target.value)}
         />
       </div>
+      {/* User Table*/}
       <div className={Style.usersList}>
         {/* using table tag will be useful here i assume */}
         <table className={Style.userstable}>
@@ -111,7 +129,12 @@ const UsersTable = () => {
                     </button>
                     <button style={{ border: "none" }}>
                       <MdDeleteOutline
-                        style={{ fontSize: "20px", color: "red" }}
+                        style={{
+                          fontSize: "20px",
+                          color: "red",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => deleteUser(user.id)}
                       />
                     </button>
                   </td>
@@ -121,6 +144,46 @@ const UsersTable = () => {
           </tbody>
         </table>
       </div>
+      {/* Add Button plus more features */}
+      <div className={Style.menu}>
+        <div className={Style.adduser} onClick={addUser}>
+          <IoMdAdd style={{ fontSize: "30px" }} />
+          <p>Add User</p>
+        </div>
+      </div>
+      {/* modal for adding user */}
+      {addUserModal && (
+        <div className={Style.modal}>
+          <div className={Style.modalBackground}></div>
+          <div className={Style.addUsermodal}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h1>Add User</h1>
+              <button
+                style={{
+                  border: "none",
+                  backgroundColor: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setAddUserModal(false);
+                }}
+              >
+                <IoMdCloseCircleOutline />
+              </button>
+            </div>
+
+            <form action="" className={Style.addUserForm}>
+              <input type="text" placeholder="First Name" />
+              <input type="text" placeholder="Last Name" />
+              <input type="text" placeholder="Email" />
+              <input type="text" placeholder="Company" />
+              <input type="text" placeholder="Website" />
+              <button>Add</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
