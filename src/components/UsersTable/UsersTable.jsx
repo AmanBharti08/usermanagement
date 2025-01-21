@@ -18,6 +18,13 @@ const UsersTable = () => {
 
   const [addUserModal, setAddUserModal] = useState(false);
 
+  // form inputs
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [website, setWebsite] = useState("");
+
   useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
@@ -46,7 +53,37 @@ const UsersTable = () => {
   function addUser() {
     setAddUserModal(true);
   }
-  //delete User
+  function handleAddUser(e) {
+    e.preventDefault();
+
+    if (!firstName || !lastName || !email || !company || !website) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Create a new user object
+    const newUser = {
+      id: users.length + 1, // Generate a unique ID
+      name: `${firstName} ${lastName}`,
+      email: email,
+      company: { name: company },
+      website: website,
+    };
+
+    const updatedUsers = [...users, newUser];
+    setUsers(updatedUsers);
+    setFilteredUser(updatedUsers);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setCompany("");
+    setWebsite("");
+
+    // Close the modal
+    setAddUserModal(false);
+  }
+  // delete User
   function deleteUser(id) {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
@@ -64,6 +101,7 @@ const UsersTable = () => {
           value={searched}
           onChange={(e) => setSearched(e.target.value)}
         />
+        <div className={Style.layout}></div>
       </div>
       {/* User Table*/}
       <div className={Style.usersList}>
@@ -172,14 +210,51 @@ const UsersTable = () => {
                 <IoMdCloseCircleOutline />
               </button>
             </div>
-
+            {/* form */}
             <form action="" className={Style.addUserForm}>
-              <input type="text" placeholder="First Name" />
-              <input type="text" placeholder="Last Name" />
-              <input type="text" placeholder="Email" />
-              <input type="text" placeholder="Company" />
-              <input type="text" placeholder="Website" />
-              <button>Add</button>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Company"
+                value={company}
+                onChange={(e) => {
+                  setCompany(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Website"
+                value={website}
+                onChange={(e) => {
+                  setWebsite(e.target.value);
+                }}
+              />
+              <button style={{ cursor: "pointer" }} onClick={handleAddUser}>
+                Add
+              </button>
             </form>
           </div>
         </div>

@@ -3,6 +3,7 @@
   padding: 40px;
   width: 100%;
   overflow-y: scroll;
+  height: 450px;
 }
 
 .searchBar {
@@ -11,6 +12,10 @@
   justify-content: center;
   padding: 0 40px;
   /* margin: 0 40px; */
+}
+
+.layout{
+
 }
 
 .searchBar > input {
@@ -112,7 +117,7 @@ td {
 }
 
 .addUserForm > input {
-  padding: 5px;
+  padding: 8px;
 }
 
 .addUserForm > button {
