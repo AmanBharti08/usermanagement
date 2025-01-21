@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/usermanagement/static/css/main.fc496d3b.css",
+    "main.css": "/usermanagement/static/css/main.261e9a06.css",
     "main.js": "/usermanagement/static/js/main.c537d4b9.js",
     "static/js/488.9686a7bf.chunk.js": "/usermanagement/static/js/488.9686a7bf.chunk.js",
     "static/media/tacnique-logo.svg": "/usermanagement/static/media/tacnique-logo.c6deea82bd6eb016aa3f7bda24de498b.svg",
     "index.html": "/usermanagement/index.html",
-    "main.fc496d3b.css.map": "/usermanagement/static/css/main.fc496d3b.css.map",
+    "main.261e9a06.css.map": "/usermanagement/static/css/main.261e9a06.css.map",
     "main.c537d4b9.js.map": "/usermanagement/static/js/main.c537d4b9.js.map",
     "488.9686a7bf.chunk.js.map": "/usermanagement/static/js/488.9686a7bf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fc496d3b.css",
+    "static/css/main.261e9a06.css",
     "static/js/main.c537d4b9.js"
   ]
 }
