@@ -15,8 +15,10 @@ const UsersTable = () => {
   const [users, setUsers] = useState([]);
   const [filteredUser, setFilteredUser] = useState([]);
   const [searched, setSearched] = useState("");
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const [addUserModal, setAddUserModal] = useState(false);
+  const [editUserModal, setEditUserModal] = useState(false);
 
   // form inputs
   const [firstName, setFirstName] = useState("");
@@ -25,6 +27,7 @@ const UsersTable = () => {
   const [company, setCompany] = useState("");
   const [website, setWebsite] = useState("");
 
+  //USeEffects
   useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
@@ -49,10 +52,14 @@ const UsersTable = () => {
     }
   }, [searched, users]);
 
-  // add user function
+  //FUNCTIONS
+
+  // user add modal opener
   function addUser() {
     setAddUserModal(true);
   }
+
+  // add user function
   function handleAddUser(e) {
     e.preventDefault();
 
@@ -83,12 +90,61 @@ const UsersTable = () => {
     // Close the modal
     setAddUserModal(false);
   }
-  // delete User
+
+  // delete User function
   function deleteUser(id) {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     // Update filteredUser state to ensure consistency
     setFilteredUser(updatedUsers);
+  }
+
+  //open edit user modal function
+  function editUser(id) {
+    const userToEdit = users.find((user) => user.id === id);
+    if (userToEdit) {
+      const [first, last] = userToEdit.name.split(" ");
+      setFirstName(first || "");
+      setLastName(last || "");
+      setEmail(userToEdit.email);
+      setCompany(userToEdit.company.name);
+      setWebsite(userToEdit.website);
+      setCurrentUserId(id);
+      setEditUserModal(true);
+    }
+  }
+
+  // edit user function
+  function handleEditUser(e) {
+    e.preventDefault();
+
+    if (!firstName || !lastName || !email || !company || !website) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    const updatedUsers = users.map((user) =>
+      user.id === currentUserId
+        ? {
+            ...user,
+            name: `${firstName} ${lastName}`,
+            email,
+            company: { ...user.company, name: company },
+            website,
+          }
+        : user
+    );
+
+    setUsers(updatedUsers);
+    setFilteredUser(updatedUsers);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setCompany("");
+    setWebsite("");
+    setCurrentUserId(null);
+
+    setEditUserModal(false);
   }
 
   return (
@@ -103,6 +159,7 @@ const UsersTable = () => {
         />
         <div className={Style.layout}></div>
       </div>
+
       {/* User Table*/}
       <div className={Style.usersList}>
         {/* using table tag will be useful here i assume */}
@@ -163,7 +220,14 @@ const UsersTable = () => {
                     }}
                   >
                     <button style={{ border: "none" }}>
-                      <FaRegEdit style={{ fontSize: "15px", color: "blue" }} />
+                      <FaRegEdit
+                        style={{
+                          fontSize: "15px",
+                          color: "blue",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => editUser(user.id)}
+                      />
                     </button>
                     <button style={{ border: "none" }}>
                       <MdDeleteOutline
@@ -182,6 +246,7 @@ const UsersTable = () => {
           </tbody>
         </table>
       </div>
+
       {/* Add Button plus more features */}
       <div className={Style.menu}>
         <div className={Style.adduser} onClick={addUser}>
@@ -189,6 +254,8 @@ const UsersTable = () => {
           <p>Add User</p>
         </div>
       </div>
+
+      {/* modals */}
       {/* modal for adding user */}
       {addUserModal && (
         <div className={Style.modal}>
@@ -254,6 +321,76 @@ const UsersTable = () => {
               />
               <button style={{ cursor: "pointer" }} onClick={handleAddUser}>
                 Add
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {editUserModal && (
+        <div className={Style.modal}>
+          <div className={Style.modalBackground}></div>
+          <div className={Style.addUsermodal}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <h1>Edit User</h1>
+              <button
+                style={{
+                  border: "none",
+                  backgroundColor: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setEditUserModal(false);
+                }}
+              >
+                <IoMdCloseCircleOutline />
+              </button>
+            </div>
+            {/* form */}
+            <form action="" className={Style.addUserForm}>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Company"
+                value={company}
+                onChange={(e) => {
+                  setCompany(e.target.value);
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Website"
+                value={website}
+                onChange={(e) => {
+                  setWebsite(e.target.value);
+                }}
+              />
+              <button style={{ cursor: "pointer" }} onClick={handleEditUser}>
+                Edit
               </button>
             </form>
           </div>

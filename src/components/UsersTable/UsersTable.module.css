@@ -1,11 +1,3 @@
-.usersList {
-  margin-top: 5px;
-  padding: 40px;
-  width: 100%;
-  overflow-y: scroll;
-  height: 450px;
-}
-
 .searchBar {
   /* background-color: aqua; */
   display: flex;
@@ -14,16 +6,26 @@
   /* margin: 0 40px; */
 }
 
-.layout{
-
-}
-
 .searchBar > input {
   padding: 10px 20px;
   width: 50%;
   border: none;
   border-radius: 20px;
   font-size: medium;
+}
+
+@media (max-width: 480px){
+  .searchBar > input {
+    width: 85%;
+  }
+}
+
+.usersList {
+  margin-top: 5px;
+  padding: 40px;
+  width: 100%;
+  overflow-y: scroll;
+  height: 450px;
 }
 
 .userstable {
@@ -46,6 +48,12 @@ th,
 td {
   padding: 5px;
   text-align: left;
+}
+
+@media (max-width: 480px){
+  .usersList{
+    height: 600px;
+  }
 }
 
 .menu {
@@ -80,6 +88,7 @@ td {
   cursor: pointer;
   color: black;
 }
+
 
 .modal {
   position: absolute;
